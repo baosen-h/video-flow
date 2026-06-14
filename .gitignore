@@ -1,0 +1,18 @@
+# Local dependency/cache directories
+.hyperframes/
+node_modules/
+
+# Render outputs and review frames
+renders/
+snapshots/
+
+# Large local media. Keep these on disk or release storage, not normal git.
+assets/*.mp4
+assets/*.wav
+assets/*.mp3
+assets/tts/
+assets/tts-v2/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db

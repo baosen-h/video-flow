@@ -1,0 +1,15 @@
+{
+  "name": "codex-switch-hf",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare-assets": "node tools/prepare-assets.mjs",
+    "build:v2": "node tools/build-v2.mjs",
+    "dev": "npx --yes hyperframes@0.6.97 preview",
+    "check": "npx --yes hyperframes@0.6.97 lint && npx --yes hyperframes@0.6.97 validate && npx --yes hyperframes@0.6.97 inspect",
+    "verify": "npm run check",
+    "render": "npx --yes hyperframes@0.6.97 render",
+    "render:final": "npm run verify && npm run render",
+    "publish": "npx --yes hyperframes@0.6.97 publish"
+  }
+}
