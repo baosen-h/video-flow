@@ -5,6 +5,7 @@ node_modules/
 # Render outputs and review frames
 renders/
 snapshots/
+/index.html
 
 # Large local media. Keep these on disk or release storage, not normal git.
 assets/*.mp4
@@ -12,6 +13,10 @@ assets/*.wav
 assets/*.mp3
 assets/tts/
 assets/tts-v2/
+examples/**/assets/*.mp4
+examples/**/assets/*.wav
+examples/**/assets/*.mp3
+examples/**/assets/tts*/
 
 # OS/editor noise
 .DS_Store

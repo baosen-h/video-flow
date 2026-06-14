@@ -3,8 +3,10 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
-const projectDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const assetsDir = path.join(projectDir, "assets");
+const exampleDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const projectDir = path.resolve(exampleDir, "../..");
+const exampleAssetPrefix = "examples/codex-switch/assets";
+const assetsDir = path.join(exampleDir, "assets");
 const indexPath = path.join(projectDir, "index.html");
 
 const sources = [
@@ -43,9 +45,17 @@ for (const file of sources) {
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
 
-let html = fs.readFileSync(indexPath, "utf8");
-for (const file of sources) {
-  html = html.split(`assets/${file}`).join(`assets/${file.replace(/\.mp4$/, "_kf.mp4")}`);
+if (fs.existsSync(indexPath)) {
+  let html = fs.readFileSync(indexPath, "utf8");
+  for (const file of sources) {
+    html = html
+      .split(`${exampleAssetPrefix}/${file}`)
+      .join(`${exampleAssetPrefix}/${file.replace(/\.mp4$/, "_kf.mp4")}`)
+      .split(`assets/${file}`)
+      .join(`${exampleAssetPrefix}/${file.replace(/\.mp4$/, "_kf.mp4")}`);
+  }
+  fs.writeFileSync(indexPath, html);
+  console.log("Updated index.html to use *_kf.mp4 assets");
+} else {
+  console.log("No root index.html found; run npm run example:build to generate it.");
 }
-fs.writeFileSync(indexPath, html);
-console.log("Updated index.html to use *_kf.mp4 assets");

@@ -1,10 +1,12 @@
 {
-  "name": "codex-switch-hf",
+  "name": "video-flow",
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare-assets": "node tools/prepare-assets.mjs",
-    "build:v2": "node tools/build-v2.mjs",
+    "example:prepare": "node examples/codex-switch/tools/prepare-assets-example.mjs",
+    "example:build": "node examples/codex-switch/tools/build-example.mjs",
+    "example:verify": "npm run example:build && npm run verify",
+    "example:render": "npm run example:verify && npm run render",
     "dev": "npx --yes hyperframes@0.6.97 preview",
     "check": "npx --yes hyperframes@0.6.97 lint && npx --yes hyperframes@0.6.97 validate && npx --yes hyperframes@0.6.97 inspect",
     "verify": "npm run check",

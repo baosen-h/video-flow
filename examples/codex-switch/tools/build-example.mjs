@@ -2,15 +2,18 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import os from "node:os";
 
-const projectDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const exampleDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const projectDir = path.resolve(exampleDir, "../..");
 const indexPath = path.join(projectDir, "index.html");
-const ttsDir = path.join(projectDir, "assets/tts-v2");
+const assetPrefix = "examples/codex-switch/assets";
+const ttsDir = path.join(exampleDir, "assets/tts-example");
 const engine =
   process.env.MANBO_TTS_ENGINE ||
-  "C:/Users/TT/.codex-switch/skills/multi-edge-tts-cn/scripts/engine.py";
-const narrationOut = path.join(projectDir, "assets/narration-v2.wav");
-const narrationMd = path.join(projectDir, "narration.v2.zh-CN.md");
+  path.join(os.homedir(), ".codex-switch", "skills", "multi-edge-tts-cn", "scripts", "engine.py");
+const narrationOut = path.join(exampleDir, "assets/narration-example.wav");
+const narrationMd = path.join(exampleDir, "narration-example.zh-CN.md");
 
 if (!fs.existsSync(engine)) {
   throw new Error(
@@ -23,7 +26,7 @@ const segments = [
     id: "api",
     title: "获取 DeepSeek API",
     duration: 40.9,
-    video: "assets/1_get_deepseek_api_kf.mp4",
+    video: `${assetPrefix}/1_get_deepseek_api_kf.mp4`,
     overlay: "从 API Key 到官方文档",
     text: `大家好啊，我是新人 UP 主。今天这期不搞花活，直接用一段完整流程，看 Codex Switch 怎么把 DeepSeek 接进 Codex。
 
@@ -38,7 +41,7 @@ const segments = [
     id: "provider",
     title: "创建 Provider 和 Codex 配置",
     duration: 52.066667,
-    video: "assets/2_config_provider_agent_kf.mp4",
+    video: `${assetPrefix}/2_config_provider_agent_kf.mp4`,
     overlay: "Provider 保存一套可复用连接信息",
     text: `现在回到 Codex Switch。
 
@@ -57,7 +60,7 @@ const segments = [
     id: "failure",
     title: "保留一次真实失败",
     duration: 54.3,
-    video: "assets/3_test_deepseek_incodex_kf.mp4",
+    video: `${assetPrefix}/3_test_deepseek_incodex_kf.mp4`,
     overlay: "模型列表成功，不等于对话一定成功",
     text: `第一次启动 Codex，可以看到它没有正常跑起来。
 
@@ -97,7 +100,7 @@ Codex Switch 会在本机启动一个兼容代理。请求先进到本机的 127
     id: "vision",
     title: "给纯文本模型补图片理解",
     duration: 83.066667,
-    video: "assets/4_vision_kf.mp4",
+    video: `${assetPrefix}/4_vision_kf.mp4`,
     overlay: "视觉模型只负责看图，DeepSeek 继续负责推理",
     text: `协议问题解决以后，DeepSeek 已经可以在 Codex 里处理文本任务了。
 
@@ -126,7 +129,7 @@ Codex Switch 会在本机启动一个兼容代理。请求先进到本机的 127
     id: "search",
     title: "给模型接上联网搜索",
     duration: 95.433333,
-    video: "assets/5_websearch_kf.mp4",
+    video: `${assetPrefix}/5_websearch_kf.mp4`,
     overlay: "搜索由工具完成，模型负责整理答案",
     text: `接下来是网页搜索。
 
@@ -157,7 +160,7 @@ Codex Switch 会在本机启动一个兼容代理。请求先进到本机的 127
     id: "drawing",
     title: "Drawing 图片生成",
     duration: 69.6,
-    video: "assets/6_imggenrate_kf.mp4",
+    video: `${assetPrefix}/6_imggenrate_kf.mp4`,
     overlay: "把图片生成接口也收进同一个工作台",
     text: `下面是 Drawing 页面。
 
@@ -182,7 +185,7 @@ Codex Switch 会在本机启动一个兼容代理。请求先进到本机的 127
     id: "sessions",
     title: "Talking、Sessions 和 Handoff",
     duration: 85.966667,
-    video: "assets/7_session_kf.mp4",
+    video: `${assetPrefix}/7_session_kf.mp4`,
     overlay: "测试 Provider，也整理本地会话",
     text: `除了给 Agent 写配置，Codex Switch 里还有一个简单的 Talking 页面。
 
@@ -213,7 +216,7 @@ Handoff 不是把整个会话复制一遍，而是把下一段工作最需要知
     id: "settings",
     title: "Settings、其他 Agent 和下载",
     duration: 74.7,
-    video: "assets/8_setting_github_kf.mp4",
+    video: `${assetPrefix}/8_setting_github_kf.mp4`,
     overlay: "Codex、Claude Code、Gemini 分开管理",
     text: `最后看一下 Settings。
 
@@ -558,7 +561,7 @@ const html = `<!doctype html>
   </head>
   <body>
     <div id="root" class="clip" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="${fmt(totalDuration)}">
-      <audio id="narration" class="clip" data-start="0" data-duration="${fmt(totalDuration)}" data-track-index="0" src="assets/narration-v2.wav"></audio>
+      <audio id="narration" class="clip" data-start="0" data-duration="${fmt(totalDuration)}" data-track-index="0" src="${assetPrefix}/narration-example.wav"></audio>
 
 ${videoHtml}
 
