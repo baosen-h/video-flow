@@ -1,8 +1,12 @@
 <p align="center">
-  <img src="assets/app-icon.png" alt="Video Flow Icon" width="120" />
+  <img src="assets/video-flow-icon.png" alt="Video Flow Icon" width="120" />
 </p>
 
 <h1 align="center">Video Flow</h1>
+
+<p align="center">
+  English · <a href="README.zh-CN.md">简体中文</a>
+</p>
 
 <p align="center">
   Reusable workflow for turning Recordly screen recordings into polished videos with TTS narration, subtitles, animated explain layers, and Hyperframes rendering.
@@ -175,7 +179,7 @@ video/codex-switch-hf/
     prepare-assets.mjs       raw MP4 -> *_kf.mp4
     build-v2.mjs             canonical v2 timeline builder
   assets/
-    app-icon.png             README icon
+    video-flow-icon.png      README icon
     *.mp4                    local source clips, ignored by git
     *_kf.mp4                 prepared local clips, ignored by git
     narration-v2.wav         generated narration, ignored by git
@@ -206,7 +210,7 @@ Commit:
 - docs
 - narration text
 - small project metadata
-- small static assets such as `app-icon.png`
+- small static assets such as `video-flow-icon.png`
 
 Do not commit in normal git:
 
@@ -226,3 +230,7 @@ Use GitHub Releases, external storage, or Git LFS for large source recordings an
 - The current example video is about Codex Switch, but the process is intended to be reusable.
 - If the video feels too fast, first adjust narration duration and explain layers. Do not cut necessary screen-recording content just to match TTS.
 - If a section needs more clarity, add an animated explain layer or diagram instead of repeating the same UI footage.
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
