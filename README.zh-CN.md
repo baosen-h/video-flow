@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  用 HTML、真实录屏或设计场景、TTS、字幕和 Hyperframes 制作短视频。
+  用 HTML、真实录屏或动画教学视频、TTS、字幕和 Hyperframes 制作短视频。
 </p>
 
 ## 演示
@@ -29,7 +29,7 @@
 
 Video Flow 是一个用代码制作产品演示视频的小工作流。
 
-主画面用 HTML/CSS/GSAP 编写，再由 Hyperframes 渲染成 MP4。视频可以使用真实产品录屏，也可以直接做设计场景，或者两者混合。旁白可以用 TTS，字幕最好基于真实音频时间轴再人工修正。
+主画面用 HTML/CSS/GSAP 编写，再由 Hyperframes 渲染成 MP4。视频可以使用真实产品录屏，也可以直接做动画教学视频，或者两者混合。旁白可以用 TTS。
 
 ## 关系
 

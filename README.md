@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Build short product videos with HTML, real footage or designed scenes, TTS, subtitles, and Hyperframes.
+  Build short product videos with HTML, real footage or animated tutorial videos, TTS, subtitles, and Hyperframes.
 </p>
 
 ## Demos
@@ -29,7 +29,7 @@
 
 Video Flow is a small workflow for making product demo videos as code.
 
-The main composition is HTML/CSS/GSAP. Hyperframes renders it to MP4. You can use real product recordings, fully designed scenes, or both. For narration, the examples use TTS; for subtitles, the best result comes from real audio timing plus manual correction.
+The main composition is HTML/CSS/GSAP. Hyperframes renders it to MP4. You can use real product recordings, animated tutorial videos, or both. For narration, the examples use TTS.
 
 ## Relationship
 
