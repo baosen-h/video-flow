@@ -9,98 +9,133 @@
 </p>
 
 <p align="center">
-  A lazy video-making workflow: record the screen once, then let AI handle narration, timing, subtitles, explain layers, and rendering.
+  A lightweight workflow for turning real product recordings into polished HTML-rendered demo videos.
 </p>
 
 ## Product Introduction
 
-Video Flow is for people who want to make polished screen-recorded videos with minimum manual editing.
+Video Flow is for people who want to make polished screen-recorded videos with less manual editing.
 
-The core idea is simple: record the product or workflow once with Recordly, keep the original clips complete, and let the AI workflow turn that footage into a finished video. The AI-assisted steps include narration planning, TTS generation, duration control, subtitle timing, animated explain layers, review frames, and Hyperframes rendering.
+The core idea is simple: record the real product or workflow once, keep the original clips as proof, and use an AI-assisted HTML video pipeline to build the finished video around those clips. The workflow covers narration planning, TTS generation, timing, subtitles, animated explain layers, review frames, and Hyperframes rendering.
 
-The Codex Switch video in this repository is only an example. It is included so the workflow can be run and studied immediately, but future videos should copy or adapt the example instead of treating its narration, clips, and scene plan as the framework itself.
+This repository is currently optimized around the `prompt-flow` demo video. The prompt-flow example is useful because it shows the whole production loop: real Codex and Claude Code recordings, a short spoken story, HTML/CSS/GSAP visual scenes, Mambo TTS, Whisper-timed subtitles, and a final MP4 render.
 
 ## Highlights
 
-- One recording pass: capture the real workflow once instead of recording screenshots and videos separately.
-- AI-assisted production: use AI to write narration, add explain layers, control pacing, and organize the timeline.
-- Full clip preservation: the workflow should not cut original video chips just to match narration.
-- TTS-aware timing: generated narration is retimed to fit each section.
-- Explain-layer pacing: overlays, callouts, diagrams, and animated panels add clarity and fill time.
-- Hyperframes rendering: deterministic HTML composition, validation, layout inspection, and MP4 output.
-- Example-first layout: project-specific files live under `examples/`.
+- One recording pass: capture the real workflow instead of manually collecting many small screenshots.
+- HTML-first video layout: use HTML/CSS for typography, UI panels, terminal frames, flow diagrams, and explain layers.
+- GSAP motion: animate scene entrances, step progress, and demo highlights in a deterministic way.
+- Hyperframes rendering: turn the HTML composition into an MP4.
+- Mambo TTS support: generate Chinese narration with the Mambo voice without slowing or stretching it.
+- Subtitle verification: use Whisper timing plus manual correction instead of relying only on estimated text timing.
+- Real demo proof: product recordings stay visible and are not replaced by fake UI.
 - Git-friendly storage: large recordings, generated audio, renders, and caches stay out of normal git.
 
 ## What You Get
 
-The workflow produces:
+The workflow can produce:
 
-- A generated Hyperframes composition: `index.html`.
-- A narration script for review.
-- TTS narration audio.
-- Timed subtitles.
-- Animated explain layers.
-- A final MP4 in `renders/`.
-- Optional contact sheets and snapshots for quick review.
+- a generated Hyperframes composition: `index.html`;
+- a narration script for review;
+- TTS narration audio;
+- timed subtitles;
+- animated explain layers;
+- a final MP4 in `renders/`;
+- optional snapshots for checking layout and subtitle placement.
 
 ## How It Works
 
 ```text
-Record once with Recordly
+Record the real product workflow
         |
         v
-Place source MP4s in an example assets folder
+Place source MP4s in assets/
         |
         v
-Prepare seek-friendly *_kf.mp4 clips
+Write the narration and scene plan
         |
         v
-AI-assisted build script
+Build HTML/CSS/GSAP composition
         |
-        +--> narration script
-        +--> TTS audio
-        +--> subtitle timing
+        +--> product footage
         +--> explain layers
-        +--> Hyperframes index.html
+        +--> TTS narration
+        +--> scene timing
+        +--> subtitle layer
         |
         v
-Validate and inspect
+Render with Hyperframes
         |
         v
-Render final MP4
+Check frames, audio duration, and subtitles
+        |
+        v
+Burn corrected subtitles with FFmpeg when needed
 ```
 
-## Quick Start With The Example
+## Requirements
 
-Clone and install:
+Install these before running the workflow:
+
+- Node.js and npm.
+- FFmpeg and ffprobe available in `PATH`.
+- A browser-capable Windows/macOS/Linux environment for Hyperframes rendering.
+
+Hyperframes itself is pulled through `npx` by the package scripts:
 
 ```powershell
-git clone https://github.com/baosen-h/video-flow.git
-cd video-flow
-```
-
-Put the Codex Switch example recordings in:
-
-```text
-examples/codex-switch/assets/
-```
-
-Run the example:
-
-```powershell
-npm run example:prepare
-npm run example:build
-npm run example:verify
 npm run render
 ```
 
-Or run verification and rendering together:
+If you want an AI coding agent to understand the Hyperframes production loop, install the Hyperframes skill:
 
 ```powershell
-npm run example:render
+npx skills add https://github.com/heygen-com/hyperframes --skill hyperframes
 ```
 
-Preview:
+The prompt-flow demo also uses Mambo TTS. Install the OpenClaw skill if you want to regenerate the Mambo narration:
+
+```powershell
+openclaw skills install @systiger/mambo-tts
+```
+
+In the current local prompt-flow build, Mambo is called through the Edge TTS converter:
+
+```text
+C:/Users/TT/.openclaw/workspace/skills/edge-tts/scripts/tts-converter.js
+```
+
+You can override that path with:
+
+```powershell
+$env:MAMBO_TTS_CONVERTER = "<path-to-tts-converter.js>"
+```
+
+The current Mambo voice configuration is:
+
+```text
+voice: zh-CN-XiaoyiNeural
+pitch: +8%
+```
+
+Do not time-stretch the Mambo audio just to fit a scene. Let scene durations follow the real generated audio, or copy the audio stream unchanged when only fixing video/subtitles.
+
+## Quick Start
+
+Install dependencies:
+
+```powershell
+cd F:\Desktop\Draft\video-flow
+npm install
+```
+
+Render the current composition:
+
+```powershell
+npm run render
+```
+
+Preview the composition:
 
 ```powershell
 npm run dev
@@ -108,62 +143,77 @@ npm run dev
 
 `npm run dev` starts a long-running Hyperframes preview server.
 
-## Examples
+Verify the composition:
 
-The current example is:
-
-```text
-examples/codex-switch/
+```powershell
+npm run verify
 ```
 
-It contains:
+## Prompt-Flow Demo
 
-- `index-example.html` - example generated/checked composition.
-- `narration-example.zh-CN.md` - example narration, only for the Codex Switch video.
-- `tools/build-example.mjs` - example timeline and TTS builder.
-- `tools/prepare-assets-example.mjs` - example source video preparation.
-- `assets/` - local example recordings and generated media, ignored by git.
+The current working demo uses:
 
-The `*-example` names are intentional. They make it clear that these files demonstrate one video, not the universal workflow. For a new video, copy the example folder and adjust the clips, segment list, narration text, explain layers, and output names.
+```text
+assets/codex-flow.mp4
+assets/claude-flow.mp4
+tools/build-prompt-flow-v10-mambo.mjs
+assets/prompt-flow-v10-narration.wav
+assets/prompt-flow-v10.aligned.zh.srt
+```
+
+The best current render is:
+
+```text
+renders/prompt-flow-demo-v12-subfix.mp4
+```
+
+That version was made by:
+
+1. rendering the clean HTML video without the oversized HTML subtitle layer;
+2. using Whisper timing from the real Mambo audio;
+3. manually correcting the subtitle text;
+4. burning the corrected SRT with FFmpeg;
+5. copying the audio stream unchanged with `-c:a copy`.
+
+This matters because the previous HTML subtitle timing was based on text-length estimates. It looked acceptable in code, but the real video needed audio-based timing and smaller subtitle styling.
+
+## Useful Commands
+
+Check a video duration:
+
+```powershell
+ffprobe -v error -show_entries stream=index,codec_type,duration -show_entries format=duration,size -of default=noprint_wrappers=1 "renders\prompt-flow-demo-v12-subfix.mp4"
+```
+
+Extract a review frame:
+
+```powershell
+ffmpeg -y -ss 00:00:50 -i "renders\prompt-flow-demo-v12-subfix.mp4" -frames:v 1 -update 1 "renders\v12-shot-50.png"
+```
+
+Burn corrected subtitles while keeping audio unchanged:
+
+```powershell
+ffmpeg -y `
+  -i "renders\video-flow_2026-06-27_01-46-25.mp4" `
+  -vf "subtitles='F\:/Desktop/Draft/video-flow/assets/prompt-flow-v10.aligned.zh.srt':force_style='FontName=Microsoft YaHei,FontSize=10,PrimaryColour=&H00151716,OutlineColour=&H00FFFFFF,BackColour=&HDCF8F8F4,BorderStyle=4,Outline=0.6,Shadow=0,MarginV=18'" `
+  -c:v libx264 -pix_fmt yuv420p -preset medium -crf 18 `
+  -c:a copy `
+  "renders\prompt-flow-demo-v12-subfix.mp4"
+```
 
 ## Skills And Tools
 
 | Tool | Link | Role in this workflow |
 | --- | --- | --- |
-| Recordly | [Website](https://recordly.dev/) · [GitHub](https://github.com/webadderallorg/Recordly) | Records the initial screen videos. |
-| Hyperframes | [Docs](https://hyperframes.heygen.com/) · [GitHub](https://github.com/heygen-com/hyperframes) | Builds, validates, inspects, previews, and renders the video timeline. |
-| GSAP | [Website](https://gsap.com/) · [GitHub](https://github.com/greensock/GSAP) | Animates explain layers, scene entrances, protocol diagrams, and callouts inside Hyperframes. |
-| Manbo / multi-edge TTS | Local skill: `~/.codex-switch/skills/multi-edge-tts-cn` · Related engine: [edge-tts](https://github.com/rany2/edge-tts) | Generates Chinese narration audio section by section. |
-| FFmpeg / ffprobe | [Website](https://ffmpeg.org/) · [GitHub](https://github.com/FFmpeg/FFmpeg) | Prepares clips, converts recordings into `_kf.mp4`, checks durations, and inspects rendered videos. |
-| Codex | [OpenAI Codex](https://openai.com/codex/) | Edits the workflow, scripts, timeline, and documentation. |
-
-Skill-related guidance is organized under:
-
-```text
-skills/hyperframes/
-```
-
-The local Manbo / multi-edge TTS skill is not committed to this repository. Configure it with `MANBO_TTS_ENGINE` or place it under your own home directory:
-
-```text
-<your-home>/.codex-switch/skills/multi-edge-tts-cn/scripts/engine.py
-```
-
-## TTS Setup
-
-Recommended portable setup:
-
-```powershell
-$env:MANBO_TTS_ENGINE = "<path-to-engine.py>"
-```
-
-If `MANBO_TTS_ENGINE` is not set, the example builder falls back to:
-
-```text
-<your-home>/.codex-switch/skills/multi-edge-tts-cn/scripts/engine.py
-```
-
-This avoids hard-coding any specific Windows account name.
+| Hyperframes | [GitHub](https://github.com/heygen-com/hyperframes) · [Docs](https://hyperframes.heygen.com/) | Renders HTML/CSS/media/animation into deterministic MP4 videos. |
+| Hyperframes skill | [Install](https://github.com/heygen-com/hyperframes) | Teaches Codex, Claude Code, Cursor, Gemini CLI, and other agents the Hyperframes video workflow. |
+| Mambo TTS | [ClawHub](https://clawhub.ai/systiger/skills/mambo-tts) | Generates the Mambo-style Chinese narration used by the prompt-flow demo. |
+| OpenClaw | [Docs](https://docs.openclaw.ai/clawhub) | Installs and manages ClawHub skills such as `@systiger/mambo-tts`. |
+| GSAP | [Website](https://gsap.com/) | Animates explain layers, scene entrances, progress lines, and callouts. |
+| FFmpeg / ffprobe | [Website](https://ffmpeg.org/) | Probes durations, prepares media, extracts review frames, and burns subtitles. |
+| Whisper | Local or external transcription tool | Produces audio-based subtitle timing for the narration. |
+| Codex / Claude Code | Local coding agents | Help write and revise the HTML, build scripts, subtitles, and docs. |
 
 ## Project Structure
 
@@ -175,64 +225,75 @@ video-flow/
   package.json
   hyperframes.json
   meta.json
+  index.html
   assets/
     video-flow-icon.png
+    codex-flow.mp4
+    claude-flow.mp4
+    prompt-flow-v10-narration.wav
+    prompt-flow-v10.aligned.zh.srt
+  tools/
+    build-prompt-flow-v8.mjs
+    build-prompt-flow-v9.mjs
+    build-prompt-flow-v10-mambo.mjs
   skills/
     hyperframes/
       AGENTS.md
       CLAUDE.md
-  examples/
-    codex-switch/
-      index-example.html
-      narration-example.zh-CN.md
-      tools/
-        build-example.mjs
-        prepare-assets-example.mjs
-      assets/
-        *.mp4                 local recordings, ignored by git
-        *_kf.mp4              prepared clips, ignored by git
-        narration-example.wav generated narration, ignored by git
-        tts-example/          generated TTS segments, ignored by git
-  renders/                    local renders, ignored by git
-  snapshots/                  local review snapshots, ignored by git
+  renders/
+    prompt-flow-demo-v12-subfix.mp4
 ```
 
-`index.html` at the repository root is generated by `npm run example:build` and is ignored by git.
+Large local media files may be ignored by git. If a fresh clone lacks assets such as recordings, generated narration, or rendered videos, regenerate them locally or download them from the release/storage location used by the project.
 
 ## Review Checklist
 
 Before considering a render final:
 
-1. `npm run verify` has 0 errors.
-2. Final video duration matches the generated narration audio.
-3. Each `_kf.mp4` duration matches its section duration in the example builder.
-4. Scene entrances start with the correct clip.
-5. No original screen-recording chip is cut short.
-6. Explain layers are used to control pacing instead of freezing or deleting source footage.
-7. Subtitles are readable and do not cover important UI.
-8. Contact sheets or snapshots cover all major sections.
+1. `npm run verify` has no blocking errors.
+2. The final video duration matches the intended narration.
+3. Mambo audio has not been slowed or stretched accidentally.
+4. Subtitles are readable and do not cover important UI.
+5. Subtitle timing is based on the real audio, preferably from Whisper plus manual correction.
+6. Codex and Claude Code recordings clearly prove the workflow.
+7. The first scene explains the pain quickly.
+8. The video still makes sense with sound off.
+9. Key frames have been checked with screenshots, not only by watching the full render once.
+
+## Notes From The Prompt-Flow Video
+
+The most reliable production pattern was:
+
+```text
+real product recording
+  + human-written pain point
+  + HTML/CSS/GSAP scenes
+  + Mambo narration
+  + Whisper subtitle timing
+  + FFmpeg verification
+```
+
+Claude Code and Codex are useful for iteration, but final taste still needs human review. In particular, do not trust generated subtitle placement until you inspect frames from the rendered MP4.
 
 ## Git Policy
 
 Commit:
 
-- workflow scripts
-- example scripts and example narration text
-- docs
-- small project metadata
-- small static assets such as `video-flow-icon.png`
-- skill guidance documents
+- workflow scripts;
+- example scripts and narration text;
+- docs;
+- small project metadata;
+- small static assets such as `video-flow-icon.png`;
+- skill guidance documents.
 
 Do not commit in normal git:
 
-- source MP4 recordings
-- prepared `_kf.mp4` clips
-- generated WAV/MP3 files
-- generated root `index.html`
-- `renders/`
-- `snapshots/`
-- `.hyperframes/`
-- dependency caches
+- large source MP4 recordings;
+- generated WAV/MP3 files;
+- generated renders;
+- snapshots;
+- `.hyperframes/`;
+- dependency caches.
 
 Use GitHub Releases, external storage, or Git LFS for large source recordings and final videos.
 
