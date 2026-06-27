@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  一个轻量的视频制作工作流：把真实产品录屏变成 HTML 渲染的精致演示视频。
+  用 HTML、真实录屏或设计场景、TTS、字幕和 Hyperframes 制作短视频。
 </p>
 
 ## 演示
@@ -25,64 +25,61 @@
   </tr>
 </table>
 
-## 项目介绍
+## 它是什么
 
-Video Flow 面向想低成本制作精致录屏视频的人。
+Video Flow 是一个用代码制作产品演示视频的小工作流。
 
-核心思路很简单：先录真实产品操作，把录屏当作证据，再用 HTML/CSS/GSAP、TTS、字幕和 Hyperframes 渲染，把这些素材组织成完整视频。
+主画面用 HTML/CSS/GSAP 编写，再由 Hyperframes 渲染成 MP4。视频可以使用真实产品录屏，也可以直接做设计场景，或者两者混合。旁白可以用 TTS，字幕最好基于真实音频时间轴再人工修正。
 
-仓库里的完整案例放在 `examples/`。小体积 GIF 会提交到 git，方便别人直接看到效果；大型源视频、生成音频和最终 MP4 不放进普通 git。
-
-## 工作流程
+## 关系
 
 ```text
-录制真实产品画面
-        |
-        v
-写旁白和分镜
-        |
-        v
-构建 HTML/CSS/GSAP composition
-        |
-        v
-生成或复用 TTS 旁白
-        |
-        v
-用 Hyperframes 渲染
-        |
-        v
-检查关键帧、音频和字幕
+video-flow
+  -> 可复用的视频工作流
+
+examples/prompt-flow
+  -> prompt-flow 演示视频源码
+
+examples/codex-switch
+  -> 另一个完整示例
+
+skills/
+  -> Hyperframes 和 Mambo TTS 的 agent 指南
+```
+
+`examples/*.gif` 是预览演示。完整录屏、生成音频和最终 MP4 属于本地或 Release 资产。
+
+## 工作方式
+
+```text
+规划故事
+  -> 编写 HTML/CSS 场景
+  -> 加入真实录屏或设计 UI
+  -> 生成或复用旁白
+  -> 用 Hyperframes 渲染
+  -> 检查关键帧和字幕
 ```
 
 ## 运行要求
 
 - Node.js 和 npm。
-- `PATH` 中可用的 FFmpeg / ffprobe。
+- FFmpeg 和 ffprobe。
 - Hyperframes：通过 npm scripts 里的 `npx` 调用。
-- 可选：给 AI coding agent 用的 Hyperframes skill。
-- 可选：如果要重新生成 prompt-flow 旁白，需要 Mambo TTS。
 
-安装 Hyperframes skill：
+可选 skill：
 
 ```powershell
 npx skills add https://github.com/heygen-com/hyperframes --skill hyperframes
-```
-
-安装 Mambo TTS：
-
-```powershell
 openclaw skills install @systiger/mambo-tts
 ```
 
-prompt-flow 示例可以用这个环境变量指定 TTS converter：
+如果你的 Mambo 设置使用自定义 Edge TTS converter 路径：
 
 ```powershell
 $env:MAMBO_TTS_CONVERTER = "<path-to-tts-converter.js>"
 ```
 
-当前 Mambo 声音配置是 `zh-CN-XiaoyiNeural`，pitch 为 `+8%`。不要为了贴合画面去拉慢 Mambo 音频，应该让画面时长跟随真实音频。
-
-## 快速开始
+## 运行
 
 安装依赖：
 
@@ -90,19 +87,21 @@ $env:MAMBO_TTS_CONVERTER = "<path-to-tts-converter.js>"
 npm install
 ```
 
-构建并渲染 prompt-flow 示例。先把完整本地录屏放到：
-
-```text
-examples/prompt-flow/assets/codex-flow.mp4
-examples/prompt-flow/assets/claude-flow.mp4
-```
+构建 prompt-flow：
 
 ```powershell
 npm run prompt-flow:build
 npm run render
 ```
 
-构建并渲染 codex-switch 示例：
+如果要重建完整 prompt-flow 视频，把录屏放到：
+
+```text
+examples/prompt-flow/assets/codex-flow.mp4
+examples/prompt-flow/assets/claude-flow.mp4
+```
+
+构建 codex-switch：
 
 ```powershell
 npm run example:build
@@ -119,41 +118,24 @@ npm run dev
 
 `examples/prompt-flow/`
 
-- `tools/build-prompt-flow-v10-mambo.mjs` 构建 prompt-flow composition。
+- `tools/build-prompt-flow-v10-mambo.mjs` 构建当前 prompt-flow composition。
 - `ART_DIRECTION.md` 记录视觉方向。
-- `assets/*.srt` 和旁白文本是小型审阅文件。
-- 需要重建完整视频时，把完整录屏放到 `examples/prompt-flow/assets/`。
+- `assets/*.srt` 和旁白文本是审阅文件。
 
 `examples/codex-switch/`
 
-- 第二个完整示例，用来展示原始的可复用项目模式。
-- 新建视频项目时，可以参考这个文件夹。
+- 第二个示例，用来参考原始的可复用模式。
 
-## 技能和工具
+## 工具
 
 | 工具 | 作用 |
 | --- | --- |
-| Hyperframes | 把 HTML/CSS/media/animation 渲染成 MP4。 |
-| GSAP | 驱动解释层、入场动画、进度线和 callout。 |
-| Mambo TTS | 生成 prompt-flow 演示里使用的中文旁白。 |
-| FFmpeg / ffprobe | 检查时长、导出关键帧、烧录字幕。 |
-| Whisper | 根据真实音频生成字幕时间轴。 |
-| Codex / Claude Code | 辅助修改 HTML、构建脚本、字幕和文档。 |
-
-## 说明
-
-目前最稳定的生产方式是：
-
-```text
-真实产品录屏
-  + 人写痛点
-  + HTML/CSS/GSAP 场景
-  + Mambo 旁白
-  + Whisper 字幕时间轴
-  + FFmpeg 验证
-```
-
-小体积 GIF 会作为示例提交。大型视频和生成媒体保留在本地，或通过 Release / 外部存储发布。
+| Hyperframes | 把 HTML 视频 composition 渲染成 MP4。 |
+| GSAP | 驱动场景和解释层动画。 |
+| Mambo TTS | 为 prompt-flow 演示生成中文旁白。 |
+| FFmpeg / ffprobe | 检查媒体、导出关键帧、烧录字幕。 |
+| Whisper | 生成基于音频的字幕时间轴。 |
+| Codex / Claude Code | 辅助修改 composition、脚本和文档。 |
 
 ## 协议
 

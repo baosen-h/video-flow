@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  A lightweight workflow for turning real product recordings into polished HTML-rendered demo videos.
+  Build short product videos with HTML, real footage or designed scenes, TTS, subtitles, and Hyperframes.
 </p>
 
 ## Demos
@@ -25,64 +25,61 @@
   </tr>
 </table>
 
-## Product Introduction
+## What It Is
 
-Video Flow is for people who want to make polished screen-recorded videos with less manual editing.
+Video Flow is a small workflow for making product demo videos as code.
 
-The core idea is simple: record the real product once, keep the recordings as proof, and build the final video around them with HTML/CSS/GSAP, TTS, subtitles, and Hyperframes rendering.
+The main composition is HTML/CSS/GSAP. Hyperframes renders it to MP4. You can use real product recordings, fully designed scenes, or both. For narration, the examples use TTS; for subtitles, the best result comes from real audio timing plus manual correction.
 
-This repository keeps complete examples under `examples/`. Small preview GIFs are committed so people can immediately see the result. Large source videos, generated audio, and final MP4 renders are kept out of normal git.
+## Relationship
+
+```text
+video-flow
+  -> reusable video workflow
+
+examples/prompt-flow
+  -> prompt-flow demo source
+
+examples/codex-switch
+  -> another complete example
+
+skills/
+  -> agent guidance for Hyperframes and Mambo TTS
+```
+
+The GIFs at `examples/*.gif` are preview demos. Full recordings, generated audio, and final MP4 files are local/release assets.
 
 ## How It Works
 
 ```text
-Record real product footage
-        |
-        v
-Write narration and scene plan
-        |
-        v
-Build HTML/CSS/GSAP composition
-        |
-        v
-Generate or reuse TTS narration
-        |
-        v
-Render with Hyperframes
-        |
-        v
-Check frames, audio, and subtitles
+plan the story
+  -> build HTML/CSS scenes
+  -> add real footage or designed UI
+  -> generate or reuse narration
+  -> render with Hyperframes
+  -> check frames and subtitles
 ```
 
 ## Requirements
 
 - Node.js and npm.
-- FFmpeg and ffprobe in `PATH`.
-- Hyperframes, pulled by the npm scripts through `npx`.
-- Optional: Hyperframes skill for AI coding agents.
-- Optional: Mambo TTS if you regenerate the prompt-flow narration.
+- FFmpeg and ffprobe.
+- Hyperframes, called through `npx` in the npm scripts.
 
-Install the Hyperframes skill:
+Optional skills:
 
 ```powershell
 npx skills add https://github.com/heygen-com/hyperframes --skill hyperframes
-```
-
-Install Mambo TTS:
-
-```powershell
 openclaw skills install @systiger/mambo-tts
 ```
 
-The prompt-flow example can use:
+If your Mambo setup uses a custom Edge TTS converter path:
 
 ```powershell
 $env:MAMBO_TTS_CONVERTER = "<path-to-tts-converter.js>"
 ```
 
-The current Mambo voice setting is `zh-CN-XiaoyiNeural` with pitch `+8%`. Do not time-stretch the Mambo audio just to fit a scene; let scene timing follow the real audio.
-
-## Quick Start
+## Run
 
 Install dependencies:
 
@@ -90,19 +87,21 @@ Install dependencies:
 npm install
 ```
 
-Build and render the prompt-flow example. Put the full local recordings here first:
-
-```text
-examples/prompt-flow/assets/codex-flow.mp4
-examples/prompt-flow/assets/claude-flow.mp4
-```
+Build prompt-flow:
 
 ```powershell
 npm run prompt-flow:build
 npm run render
 ```
 
-Build and render the codex-switch example:
+If rebuilding the full prompt-flow video, place recordings here:
+
+```text
+examples/prompt-flow/assets/codex-flow.mp4
+examples/prompt-flow/assets/claude-flow.mp4
+```
+
+Build codex-switch:
 
 ```powershell
 npm run example:build
@@ -119,41 +118,24 @@ npm run dev
 
 `examples/prompt-flow/`
 
-- `tools/build-prompt-flow-v10-mambo.mjs` builds the prompt-flow composition.
+- `tools/build-prompt-flow-v10-mambo.mjs` builds the current prompt-flow composition.
 - `ART_DIRECTION.md` records the visual direction.
-- `assets/*.srt` and narration text are small review artifacts.
-- Put full recordings in `examples/prompt-flow/assets/` when rebuilding.
+- `assets/*.srt` and narration text are review artifacts.
 
 `examples/codex-switch/`
 
-- A second complete example showing the original reusable project pattern.
-- Use it as a reference when creating a new video example folder.
+- A second example for studying the original reusable pattern.
 
-## Skills And Tools
+## Tools
 
 | Tool | Role |
 | --- | --- |
-| Hyperframes | Renders HTML/CSS/media/animation into MP4. |
-| GSAP | Animates explain layers, scene entrances, progress lines, and callouts. |
-| Mambo TTS | Generates the Chinese narration used by the prompt-flow demo. |
-| FFmpeg / ffprobe | Checks durations, extracts review frames, and burns subtitles. |
-| Whisper | Produces audio-based subtitle timing. |
-| Codex / Claude Code | Helps revise the HTML, build scripts, subtitles, and docs. |
-
-## Notes
-
-The most reliable production pattern is:
-
-```text
-real product recording
-  + human-written pain point
-  + HTML/CSS/GSAP scenes
-  + Mambo narration
-  + Whisper subtitle timing
-  + FFmpeg verification
-```
-
-Small GIFs are committed as examples. Large videos and generated media should stay local or be published through releases/external storage.
+| Hyperframes | Render HTML video compositions to MP4. |
+| GSAP | Animate scenes and explain layers. |
+| Mambo TTS | Generate Chinese narration for the prompt-flow demo. |
+| FFmpeg / ffprobe | Inspect media, extract frames, burn subtitles. |
+| Whisper | Create audio-based subtitle timing. |
+| Codex / Claude Code | Help edit the composition, scripts, and docs. |
 
 ## License
 
