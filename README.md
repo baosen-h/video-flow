@@ -128,14 +128,15 @@ npm run dev
 
 ## Tools
 
-| Tool | Role |
-| --- | --- |
-| Hyperframes | Render HTML video compositions to MP4. |
-| GSAP | Animate scenes and explain layers. |
-| Mambo TTS | Generate Chinese narration for the prompt-flow demo. |
-| FFmpeg / ffprobe | Inspect media, extract frames, burn subtitles. |
-| Whisper | Create audio-based subtitle timing. |
-| Codex / Claude Code | Help edit the composition, scripts, and docs. |
+| Tool | Address | Role |
+| --- | --- | --- |
+| Recordly | [Website](https://recordly.dev/) · [GitHub](https://github.com/webadderallorg/Recordly) | Record product footage when the video uses real workflow clips. |
+| Hyperframes | [Website](https://hyperframes.heygen.com/) · [GitHub](https://github.com/heygen-com/hyperframes) | Render HTML video compositions to MP4. |
+| GSAP | [Website](https://gsap.com/) | Animate scenes and explain layers. |
+| Mambo TTS | [ClawHub](https://clawhub.ai/systiger/skills/mambo-tts) | Generate Chinese narration for the prompt-flow demo. |
+| FFmpeg / ffprobe | [Website](https://ffmpeg.org/) | Inspect media, extract frames, burn subtitles. |
+| Whisper | Local or external transcription tool | Create audio-based subtitle timing. |
+| Codex / Claude Code | Local coding agents | Help edit the composition, scripts, and docs. |
 
 ## License
 

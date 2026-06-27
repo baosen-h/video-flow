@@ -128,14 +128,15 @@ npm run dev
 
 ## 工具
 
-| 工具 | 作用 |
-| --- | --- |
-| Hyperframes | 把 HTML 视频 composition 渲染成 MP4。 |
-| GSAP | 驱动场景和解释层动画。 |
-| Mambo TTS | 为 prompt-flow 演示生成中文旁白。 |
-| FFmpeg / ffprobe | 检查媒体、导出关键帧、烧录字幕。 |
-| Whisper | 生成基于音频的字幕时间轴。 |
-| Codex / Claude Code | 辅助修改 composition、脚本和文档。 |
+| 工具 | 地址 | 作用 |
+| --- | --- | --- |
+| Recordly | [官网](https://recordly.dev/) · [GitHub](https://github.com/webadderallorg/Recordly) | 需要真实操作片段时，用来录制产品画面。 |
+| Hyperframes | [官网](https://hyperframes.heygen.com/) · [GitHub](https://github.com/heygen-com/hyperframes) | 把 HTML 视频 composition 渲染成 MP4。 |
+| GSAP | [官网](https://gsap.com/) | 驱动场景和解释层动画。 |
+| Mambo TTS | [ClawHub](https://clawhub.ai/systiger/skills/mambo-tts) | 为 prompt-flow 演示生成中文旁白。 |
+| FFmpeg / ffprobe | [官网](https://ffmpeg.org/) | 检查媒体、导出关键帧、烧录字幕。 |
+| Whisper | 本地或外部转写工具 | 生成基于音频的字幕时间轴。 |
+| Codex / Claude Code | 本地 coding agent | 辅助修改 composition、脚本和文档。 |
 
 ## 协议
 
